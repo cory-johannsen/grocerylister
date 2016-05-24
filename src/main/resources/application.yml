@@ -1,0 +1,36 @@
+server:
+  port: 9000
+
+spring:
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/grocerylister
+    username: grocerylister
+    password: grocerylister
+
+---
+
+spring:
+  profiles: dev-local
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/grocerylister
+    username: grocerylister
+    password: grocerylister
+
+---
+
+spring:
+  profiles: dev-docker
+  datasource:
+    url: jdbc:postgresql://10.0.3.2:5432/grocerylister
+    username: grocerylister
+    password: grocerylister
+
+---
+
+spring:
+  profiles: production
+  datasource:
+    url: jdbc:postgresql://grocery-lister.cq3xeric7bhh.us-east-1.rds.amazonaws.com:5432/grocery-lister
+    username: grocerylister
+    password: grocerylister
+
