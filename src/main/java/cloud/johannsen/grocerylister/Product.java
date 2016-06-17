@@ -43,8 +43,8 @@ public class Product {
         this.name = name;
     }
 
-    @Enumerated(EnumType.STRING)
-    @Column(name="department")
+    @OneToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="department_id")
     public Department getDepartment() {
         return department;
     }

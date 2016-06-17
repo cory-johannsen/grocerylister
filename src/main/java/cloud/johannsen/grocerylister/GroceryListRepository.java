@@ -12,6 +12,6 @@ import java.util.List;
 @RepositoryRestResource(collectionResourceRel = "groceryList", path = "grocerylist")
 public interface GroceryListRepository extends PagingAndSortingRepository<GroceryList, Long> {
 
-    List<Product> findByName(@Param("name") String name);
+    GroceryList findByStore(Store store);
 
 }

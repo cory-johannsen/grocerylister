@@ -16,24 +16,4 @@ public class GroceryListerController {
     @Autowired
     GroceryListRepository groceryListRepository;
 
-    @RequestMapping("/departments")
-    public @ResponseBody List<Department> departments() {
-        List<Department> departments = new ArrayList<>();
-        for(Department department : Department.values()) {
-            departments.add(department);
-        }
-        return departments;
-    }
-
-    @RequestMapping("/current_grocery_list")
-    public @ResponseBody GroceryList currentGroceryList() {
-        Iterable<GroceryList> groceryLists = groceryListRepository.findAll();
-        GroceryList currentGroceryList = null;
-        for(GroceryList groceryList : groceryLists) {
-            if (currentGroceryList == null || currentGroceryList.getLastModified().before(groceryList.getLastModified())) {
-                currentGroceryList = groceryList;
-            }
-        }
-        return currentGroceryList;
-    }
 }

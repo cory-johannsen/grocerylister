@@ -1,15 +1,22 @@
 buildscript {
-	ext {
-		springBootVersion = '1.3.5.RELEASE'
-	}
-	repositories {
+    ext {
+        springBootVersion = '1.3.5.RELEASE'
+    }
+    repositories {
         mavenLocal()
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("io.github.divinespear:jpa-schema-gradle-plugin:+")
-	}
+    }
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            if (details.requested.group == 'org.hibernate') {
+                details.useVersion '4.3.11.Final'
+            }
+        }
+    }
 }
 
 apply plugin: 'java'
@@ -18,36 +25,45 @@ apply plugin: 'spring-boot'
 apply plugin: "jpa-schema-generate"
 
 jar {
-	baseName = 'grocerylister'
-	version = '0.0.1-SNAPSHOT'
+    baseName = 'grocerylister'
+    version = '0.0.1-SNAPSHOT'
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 
 dependencies {
-	compile "org.springframework.boot:spring-boot-starter-data-rest"
-	compile "org.springframework.boot:spring-boot-starter-data-jpa"
+    compile "org.springframework.boot:spring-boot-starter-data-rest"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
     compile("org.springframework.boot:spring-boot-starter-hateoas")
     compile "org.postgresql:postgresql:9.4-1200-jdbc41"
     compile 'ch.qos.logback:logback-classic'
 
-	runtime('org.postgresql:postgresql:9.4-1200-jdbc41')
-	testCompile('org.springframework.boot:spring-boot-starter-test') 
+    runtime('org.postgresql:postgresql:9.4-1200-jdbc41')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 generateSchema {
-    databaseProductName="PostgreSQL"
-    databaseMajorVersion=9
-    databaseMinorVersion=4
+    databaseProductName = "PostgreSQL"
+    databaseMajorVersion = 9
+    databaseMinorVersion = 4
+    databaseAction = 'drop-and-create'
     vendor = 'hibernate'
     properties = [
-        "hibernate.dialect": "org.hibernate.dialect.PostgreSQL94Dialect",
+            "hibernate.dialect": "org.hibernate.dialect.PostgreSQL9Dialect",
     ]
-    packageToScan = [ 'cloud.johannsen.grocerylister']
-    scriptAction = 'create'
+    packageToScan = ['cloud.johannsen.grocerylister']
+    scriptAction = 'drop-and-create'
+    jdbcDriver = 'org.postgresql.Driver'
+    jdbcUrl = 'jdbc:postgresql://localhost/grocerylister'
+    jdbcUser = 'grocerylister'
+    jdbcPassword = 'grocerylister'
+    format = true
+    scanTestClasses = false
+
+
 }

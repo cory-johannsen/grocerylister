@@ -16,10 +16,12 @@ public class GroceryList {
     private String name;
     private List<Product> products = new ArrayList<>();
     private Date lastModified = new Date();
+    private Store store;
 
     public GroceryList() {
         id = null;
         name = null;
+        store = null;
     }
 
     public GroceryList(Long id, String name, List<Product> products) {
@@ -61,6 +63,15 @@ public class GroceryList {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    @OneToOne(mappedBy = "groceryList")
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
     }
 
     @Temporal(TemporalType.TIMESTAMP)
