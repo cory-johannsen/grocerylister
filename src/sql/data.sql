@@ -108,6 +108,10 @@ COPY store_department (store_id, department_id, index) FROM stdin WITH DELIMITER
 2,13,13
 2,19,14
 2,20,15
+3,1,0
+3,6,1
+3,2,2
+
 \.
 
 
